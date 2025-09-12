@@ -9,7 +9,7 @@ import retrofit2.http.GET
 
 interface BookingService {
 
-    @GET("booking/list")
+    @GET("booking")
     suspend fun fetchBookings(): Booking
 
     companion object {

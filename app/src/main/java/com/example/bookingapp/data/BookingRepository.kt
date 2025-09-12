@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class BookingRepository @Inject constructor(
-    val bookingService: BookingService
+    val bookingService: BookingService,
 ) {
     fun getData(): Flow<List<String>> {
         return flow {
@@ -14,16 +14,11 @@ class BookingRepository @Inject constructor(
                 bookingService.fetchBookings()
             }.onSuccess { result ->
 
-                val li = result.segments.map {
+                val li = result.items.map {
                     "${it.originAndDestinationPair} -->> ${it.originAndDestinationPair}"
                 }
                 emit(li)
             }
         }
     }
-
-    suspend fun refreshData() {
-
-    }
-
 }

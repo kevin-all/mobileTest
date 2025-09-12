@@ -1,5 +1,7 @@
 package com.example.bookingapp.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class Info(
@@ -22,14 +24,23 @@ data class OriginAndDestinationPair(
     val originCity: String,
 )
 
-data class Segment(
+@Entity(tableName = "booking")
+data class Item(
+    @PrimaryKey
+    @SerializedName("id")
     val id: Int,
+    @SerializedName("originAndDestinationPair")
     val originAndDestinationPair: OriginAndDestinationPair
 )
 
 data class Booking(
+    val id: Int = 0,
+    @SerializedName("shipReference")
     val shipReference: String,
+    @SerializedName("shipToken")
     val shipToken: String,
+    @SerializedName("expiryTime")
     val expiryTime: Long,
-    val segments: List<Segment>,
+    @SerializedName("segments")
+    val items: List<Item>,
 )
