@@ -4,7 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.paging.RemoteMediator.MediatorResult
 import androidx.room.withTransaction
 import com.example.bookingapp.api.BookingService
 import javax.inject.Inject
@@ -13,11 +12,11 @@ import javax.inject.Inject
 class BookingRemoteMediator @Inject constructor(
     val bookingService: BookingService,
     val db: AppDatabase,
-): RemoteMediator<Int, Booking>() {
+): RemoteMediator<Int, Item>() {
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, Booking>
+        state: PagingState<Int, Item>
     ): MediatorResult {
         // TODO
         val page = when (loadType) {

@@ -1,5 +1,8 @@
 package com.example.bookingapp.data
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.example.bookingapp.api.BookingService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -7,6 +10,7 @@ import javax.inject.Inject
 
 class BookingRepository @Inject constructor(
     val bookingService: BookingService,
+    val database: AppDatabase
 ) {
     fun getData(): Flow<List<String>> {
         return flow {
@@ -21,4 +25,14 @@ class BookingRepository @Inject constructor(
             }
         }
     }
+
+    @OptIn(ExperimentalPagingApi::class)
+    fun getItems() = Pager(
+        config = PagingConfig(pageSize = 10),
+        remoteMediator = BookingRemoteMediator(bookingService, database)
+    ) {
+        BookingPagingSource(
+            bookingService
+        )
+    }.flow
 }

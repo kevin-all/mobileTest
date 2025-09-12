@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class DemoViewModel @Inject constructor(
-    val bookingService: BookingService,
     val bookingRepository: BookingRepository
 ) : ViewModel() {
     val bookings: StateFlow<List<String>> = bookingRepository
@@ -27,11 +26,5 @@ class DemoViewModel @Inject constructor(
             emptyList()
         )
 
-    val items = Pager(
-        PagingConfig(pageSize = 10)
-    ) {
-        BookingPagingSource(
-            bookingService
-        )
-    }.flow.cachedIn(viewModelScope)
+    val items = bookingRepository.getItems().cachedIn(viewModelScope)
 }
